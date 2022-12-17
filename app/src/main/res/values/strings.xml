@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Тест Бэка</string>
+    <string name="question">Выберете наиболее подходящий варинт:</string>
+    <string name="next">Следующий \n вопрос</string>
+    <string name="previous">Предыдущий \n вопрос</string>
+    <string name="question_counter">Вопрос %1$d из %2$d</string>
+    <string name="results">Результаты</string>
+    <string name="restart">Пройти тест заново</string>
+    <string name="user_result">Результат:</string>
+    <string name="no_answer">Пожалуйста, выберете вариант ответа</string>
+</resources>
