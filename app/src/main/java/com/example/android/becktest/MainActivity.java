@@ -2,7 +2,6 @@ package com.example.android.becktest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,24 +10,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.becktest.dict.Question;
 import com.example.android.becktest.dict.Result;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    Map<Integer, Integer> userAnswer = new HashMap<>();
-    Integer counter;
-    RadioButton radioButton1;
-    RadioButton radioButton2;
-    RadioButton radioButton3;
-    RadioButton radioButton4;
+    private Map<Integer, Integer> userAnswer = new HashMap<>();
+    private Integer counter;
+    private RadioButton radioButton1;
+    private RadioButton radioButton2;
+    private RadioButton radioButton3;
+    private RadioButton radioButton4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextQuestion(View view) {
-
-        RadioButton radioButton01 = (RadioButton) findViewById(R.id.option1);
-        RadioButton radioButton02 = (RadioButton) findViewById(R.id.option2);
-        RadioButton radioButton03 = (RadioButton) findViewById(R.id.option3);
-        RadioButton radioButton04 = (RadioButton) findViewById(R.id.option4);
-
         //валидация
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         if (radioGroup.getCheckedRadioButtonId() == -1) {
@@ -134,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void previousQuestion(View view) {
+        radioButton1 = (RadioButton) findViewById(R.id.option1);
+        radioButton2 = (RadioButton) findViewById(R.id.option2);
+        radioButton3 = (RadioButton) findViewById(R.id.option3);
+        radioButton4 = (RadioButton) findViewById(R.id.option4);
+
         counter--;
 
         TextView questionNumber = (TextView) findViewById(R.id.questionNumber);
@@ -141,13 +134,15 @@ public class MainActivity extends AppCompatActivity {
         questionNumber.setText(text);
 
         Question question = Question.getQuestionById(counter);
-        displayOption((RadioButton) findViewById(R.id.option1), question.getFirstOption());
-        displayOption((RadioButton) findViewById(R.id.option2), question.getSecondOption());
-        displayOption((RadioButton) findViewById(R.id.option3), question.getThirdOption());
-        displayOption((RadioButton) findViewById(R.id.option4), question.getForthOption());
+        displayOption(radioButton1, question.getFirstOption());
+        displayOption(radioButton2, question.getSecondOption());
+        displayOption(radioButton3, question.getThirdOption());
+        displayOption(radioButton4, question.getForthOption());
+
         Button nextButton = (Button) findViewById(R.id.nextButton);
         Button previousButton = (Button) findViewById(R.id.previousButton);
         Button resultsButton = (Button) findViewById(R.id.resultsButton);
+
         if (counter == 1) {
             previousButton.setVisibility(View.GONE);
         }
@@ -158,10 +153,6 @@ public class MainActivity extends AppCompatActivity {
         }
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         radioGroup.clearCheck();
-        radioButton1 = (RadioButton) findViewById(R.id.option1);
-        radioButton2 = (RadioButton) findViewById(R.id.option2);
-        radioButton3 = (RadioButton) findViewById(R.id.option3);
-        radioButton4 = (RadioButton) findViewById(R.id.option4);
 
         if (userAnswer.get(counter) != null) {
             Integer option = userAnswer.get(counter);
@@ -208,6 +199,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void calculateResults(View view) {
+        //валидация
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        if (radioGroup.getCheckedRadioButtonId() == -1) {
+            String text = getString(R.string.no_answer);
+            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
         setContentView(R.layout.results);
         Integer result = 0;
         for (Map.Entry<Integer, Integer> entry: userAnswer.entrySet()) {
@@ -215,15 +215,15 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView resultText = (TextView) findViewById(R.id.user_result);
         if (result <= 9) {
-            resultText.setText(Result.RESULT_0_9.value);
+            resultText.setText(Result.RESULT_0_9.getValue());
         } else if (result <= 15) {
-            resultText.setText(Result.RESULT_10_15.value);
+            resultText.setText(Result.RESULT_10_15.getValue());
         } else if (result <= 19) {
-            resultText.setText(Result.RESULT_16_19.value);
+            resultText.setText(Result.RESULT_16_19.getValue());
         } else if (result <= 29) {
-            resultText.setText(Result.RESULT_20_29.value);
+            resultText.setText(Result.RESULT_20_29.getValue());
         } else {
-            resultText.setText(Result.RESULT_30_63.value);
+            resultText.setText(Result.RESULT_30_63.getValue());
         }
     }
 }

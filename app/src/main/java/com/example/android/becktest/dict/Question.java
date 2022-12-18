@@ -1,8 +1,6 @@
 package com.example.android.becktest.dict;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public enum Question {
@@ -115,10 +113,6 @@ public enum Question {
 
     private final int counter;
     private final List<String> answers;
-
-    private List<String> getAnswers() {
-        return this.answers;
-    }
 
     Question(int counter,  String... answerArray) {
         this.counter = counter;
